@@ -4,7 +4,13 @@ import createLayout from './createLayout';
 
 const Template1C2C = ({ placeholders }) => {
   const row = { display : 'flex' };
-  const col = { flex: '1 1 0' };
+  const col = { 
+    flexFlow: 'row wrap',
+    display: 'flex',
+    flex: '1 1 0', 
+    alignItems: 'flex-start',
+    alignContent: 'flex-start',
+  };
 
   return (
     <div>

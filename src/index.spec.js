@@ -4,7 +4,7 @@ import { expect } from 'chai';
 
 import * as All from './';
 
-describe('index', function () {
+describe('main: index.js', function () {
 
   it('Should export Dashboard as default', function () {
     expect(All.default).to.exist;

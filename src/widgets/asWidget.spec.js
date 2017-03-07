@@ -1,37 +1,44 @@
 import React from 'react';
 
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import chaiEnzyme from 'chai-enzyme'
+
+import { Card, CardHeader, CardText } from 'material-ui/Card';
+
+import { buildContext } from '../../test/helpers';
 
 import asWidget from './asWidget';
 
-describe('asWidget()', function () {
+describe('#asWidget()', function () {
 
   const Component = () => <span>I'm a component</span>;
 
   it('Should render the wrapped component', function () {
     const WComponent = asWidget(Component);
 
-    const wrapper = shallow(<WComponent />);
+    const wrapper = mount(<WComponent />, buildContext());
     
     expect(wrapper.find(Component)).to.have.length(1);
   });
 
-  it('Should render the widgetTitle', function () {
+  it('Should render the wgTitle', function () {
     const WComponent = asWidget(Component);
 
-    const wrapper = shallow(<WComponent widgetTitle="The Title" />);
+    const wrapper = shallow(<WComponent wgTitle="The Title" />, buildContext());
     
     expect(wrapper.findWhere(n => n.text() == 'The Title')).to.exist;
   });
 
-  it('Should pass all props except widgetTitle to the wrapped component', function () {
+  it('Should pass all props except wgTitle to the wrapped component', function () {
     const WComponent = asWidget(Component);
 
-    const wrapper = shallow(<WComponent widgetTitle="The title" a="xyz" b={1000} />);
-    
-    expect(wrapper.find(Component).props()).to.have.eqls({ a : 'xyz', b : 1000 });
+    const wrapper = mount(<WComponent wgTitle="The title" a="xyz" b={1000} />, buildContext());
+    const props = wrapper.find(Component).props();
+
+    expect(props).to.have.property('a', 'xyz');
+    expect(props).to.have.property('b', 1000 );
+    expect(props).not.to.have.property('wgTitle');
   });
 
 });
